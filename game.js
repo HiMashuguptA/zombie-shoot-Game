@@ -2,6 +2,7 @@
 let gameBody = document.getElementById('game-body')
 let timerBox = document.getElementById('timer')
 let zombieId = 0;
+let live = document.getElementById('lives')
 let zombieImages = [
     "zombie-1.png",
     "zombie-2.png",
@@ -29,29 +30,26 @@ bgmi.loop = true;
 
 let lives = 4
 
-
+live.innerHTML=lives;
 
 // gameLives.innerText.display=lives
 
 
 // Iteration 2: Write a function to make a zombie
 {/* <img src="./assets/zombie-2.png" class="zombie-image" id="Zombie-image" alt=""> */}
-function makeZombie(){
+function makeZombie() {
     let zombie = document.createElement("img");
-    // in bracket o is min value and zombie.lengjt is maxium length
-    let zomImg = zombieImages[getRandomInt(0, zombieImages.length)]
-    zombie.src = `./assets/${zomImg}`
-    // add class in html
-    zombie.classList.add("zombie-image")
-    zombie.id = `zombie${zombieId}`
-    zombie.style.transform= `translateX(${getRandomInt(10,90)}vw)`
-    zombie.style.animationDuration = `${getRandomInt(3,6)}s`
-    gameBody.append(zombie)
+    let zomImg = zombieImages[getRandomInt(0, zombieImages.length)];
+    zombie.src = `./assets/${zomImg}`;
+    zombie.classList.add("zombie-image");
+    zombie.id = `zombie${zombieId}`;
+    zombie.style.transform = `translateX(${getRandomInt(10, 90)}vw)`; // Reset the position
+    zombie.style.animationDuration = `${getRandomInt(3, 6)}s`;
+    gameBody.append(zombie);
 
     zombie.onclick = () => {
-        zombieKill( zombie )
-    }
-
+        zombieKill(zombie);
+    };
 }
 
 // Iteration 3: Write a function to check if the player missed a zombie
@@ -63,6 +61,7 @@ function checkCollision(){
     if(zombie.getBoundingClientRect().top <=0){
         console.log("zombie missed");
         lives--;
+        live.innerText=lives
         zombieKill(zombie)
     }
 
@@ -71,11 +70,13 @@ function checkCollision(){
 
 // Iteration 4: Write a function to destroy a zombie when it is shot or missed
 
-function zombieKill( zombie ){
+function zombieKill(zombie) {
     zombie.style.display = "none";
     zombieId++;
-    makeZombie()
+    setTimeout(makeZombie, 1000); // Respawn the next zombie after a delay of 1000 milliseconds (1 second)
 }
+
+
 
 // Iteration 5: Creating timer
 
